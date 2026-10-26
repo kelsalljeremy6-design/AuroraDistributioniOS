@@ -1,0 +1,44 @@
+
+name: Aurora iOS Build
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: Build iOS Simulator app
+        run: |
+          xcodebuild \
+            -project AuroraDistribution.xcodeproj \
+            -scheme AuroraDistribution \
+            -sdk iphonesimulator \
+            -configuration Debug \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Save simulator app
+        uses: actions/upload-artifact@v4
+        with:
+          name: AuroraDistribution-Simulator
+          path: build/Build/Products/Debug-iphonesimulator/AuroraDistribution.app
+          if-no-files-found: error
+          retention-days: 7
