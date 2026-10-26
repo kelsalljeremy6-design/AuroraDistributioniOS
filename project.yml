@@ -1,0 +1,23 @@
+
+name: AuroraDistribution
+
+options:
+  bundleIdPrefix: com.aurora
+  deploymentTarget:
+    iOS: "17.0"
+
+targets:
+  AuroraDistribution:
+    type: application
+    platform: iOS
+    sources:
+      - path: Sources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.aurora.distribution
+        PRODUCT_NAME: Aurora Distribution
+        SWIFT_VERSION: "5.0"
+        TARGETED_DEVICE_FAMILY: "1"
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UIStatusBarStyle: UIStatusBarStyleDefault
